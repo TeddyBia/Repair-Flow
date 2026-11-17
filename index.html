@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
+  <meta name="description" content="RepairFlow — Dashboard quản lý công việc sửa chữa, bảo trì.">
+  <title>RepairFlow — Maintenance Dashboard</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/dashboard.css">
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body>
+  <!-- Bộ icon nội bộ: không phụ thuộc CDN hoặc thư viện bên ngoài. -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="icon-library" aria-hidden="true">
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v17h17M6.5 15.5l4.5-5 3.5 2.8 5-7"/><circle cx="19.5" cy="6.3" r="1"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.8 6.2a5.4 5.4 0 0 0-7.1 7.1L3 18l3 3 4.7-4.7a5.4 5.4 0 0 0 7.1-7.1l-4 4-3-3 4-4Z"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.6 2.8L16.5 9"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 8a8.5 8.5 0 1 0 1 5M20 3v5h-5"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 17v3h16v-3"/></symbol>
+    <symbol id="i-file-spreadsheet" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M4 8h16M4 14h16M10 8v14"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 2.7 6.4M3 4v6h6M12 7v5l4 2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.4 4.5 2.6 18a1.8 1.8 0 0 0 1.6 2.7h15.6a1.8 1.8 0 0 0 1.6-2.7L13.6 4.5a1.8 1.8 0 0 0-3.2 0Z"/><path d="M12 9v5m0 3h.01"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M6 18 18 6M8 6h10v10"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="16" cy="17" r="2"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 20 4.6-1 10.7-10.7-3.6-3.6L5 15.4 4 20ZM13.7 6.7l3.6 3.6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M8 7H4l4-4M4 7h10a7 7 0 1 1-6.1 10.5"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 5h6V3H9v2ZM9 12h6m-6 4h6"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10.5v6m0-9h.01"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M13 4h7v7M11 13l9-9M19 14v5H5V5h5"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 9v12"/></symbol>
+  </svg>
+
+  <!-- TRANG ĐĂNG NHẬP DEMO. Không thay thế xác thực phía server. -->
+
+
+  <div class="app-shell sidebar-collapsed" id="app-shell" hidden>
+    <div class="sidebar-overlay" id="sidebar-overlay" hidden></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Điều hướng">
+      <a class="brand" href="#charts" aria-label="RepairFlow — Trang chủ">
+        <span class="brand-symbol"><svg class="icon"><use href="#i-wrench"></use></svg></span>
+        <span class="brand-title"><strong>repair<span>flow.</span></strong><small>MAINTENANCE WORKSPACE</small></span>
+      </a>
+
+      <div class="sidebar-section-label">KHÔNG GIAN LÀM VIỆC</div>
+      <nav class="sidebar-nav" aria-label="Các trang">
+        <button class="nav-link active" type="button" data-page="charts" aria-current="page">
+          <svg class="icon"><use href="#i-chart"></use></svg>
+          <span>Dashboard</span>
+          <svg class="icon nav-chevron"><use href="#i-chevron"></use></svg>
+        </button>
+        <button class="nav-link" type="button" data-page="open">
+          <svg class="icon"><use href="#i-wrench"></use></svg>
+          <span>Công việc sửa chữa tạm</span>
+          <span class="nav-count" id="nav-open-count">0</span>
+        </button>
+        <button class="nav-link" type="button" data-page="pending" id="nav-pending" hidden>
+          <svg class="icon"><use href="#i-clock"></use></svg>
+          <span>Công việc chờ duyệt</span><span class="nav-count" id="nav-pending-count">0</span>
+        </button>
+        <button class="nav-link" type="button" data-page="done" id="nav-done">
+          <svg class="icon"><use href="#i-check-circle"></use></svg>
+          <span>Công việc đã hoàn thành</span>
+          <span class="nav-count" id="nav-done-count">0</span>
+        </button>
+        <button class="nav-link" type="button" data-page="alarm" id="nav-alarm">
+          <svg class="icon"><use href="#i-bell"></use></svg>
+          <span>Alarm công việc</span><span class="nav-count" id="nav-alarm-count">0</span>
+        </button>
+        <button class="nav-link" type="button" data-page="history" id="nav-history" hidden>
+          <svg class="icon"><use href="#i-history"></use></svg>
+          <span>Lịch sử thao tác</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-identity">
+          
+          <div>
+            <strong id="sidebar-user-name">Người dùng</strong>
+            <small id="sidebar-user-role">Tài khoản demo</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="content-shell">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="icon-button menu-toggle" id="menu-toggle" aria-label="Đóng hoặc mở menu" aria-controls="sidebar" aria-expanded="true">
+            <svg class="icon"><use href="#i-menu"></use></svg>
+          </button>
+          <span class="topbar-brand"><span class="topbar-brand-mark">✳</span> RepairFlow<span class="brand-accent">.</span></span>
+          <span class="topbar-divider"></span>
+          <div class="breadcrumb"><span>Workspace</span><svg class="icon"><use href="#i-chevron"></use></svg><strong id="breadcrumb-label">Tổng quan</strong></div>
+        </div>
+        <div class="topbar-right">
+          <button type="button" class="rf-alarm-trigger rf-pending-trigger" id="pending-trigger" data-page="pending" aria-label="Xem công việc đang chờ duyệt" title="Công việc đang chờ duyệt">
+            <svg class="icon"><use href="#i-clock"></use></svg><span class="rf-alarm-badge" id="pending-trigger-count">0</span>
+          </button>
+          <button type="button" class="rf-alarm-trigger" id="alarm-trigger" data-page="alarm" aria-label="Xem cảnh báo quá hạn" title="Cảnh báo công việc quá hạn">
+            <svg class="icon"><use href="#i-bell"></use></svg><span class="rf-alarm-badge" id="alarm-trigger-count">0</span>
+          </button>
+          <span class="demo-badge"><span class="status-dot"></span> Dữ liệu giả lập</span>
+          <span class="topbar-date" id="header-date"></span>
+          <div class="user-menu" aria-label="Thông tin tài khoản đang đăng nhập">
+            
+            <div class="user-meta">
+              <strong id="current-user-name">Người dùng</strong>
+              <span id="current-user-role" class="role-pill">Demo User</span>
+            </div>
+          </div>
+          <button type="button" class="logout-button" id="logout-button" title="Đăng xuất" aria-label="Đăng xuất">
+            <svg class="icon"><use href="#i-logout"></use></svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main" id="main">
+        <section class="page-head">
+          <div class="page-heading">
+            
+            <h1 id="page-title">Dashboard</h1>
+            <p id="page-description" hidden></p>
+          </div>
+          <div class="head-actions">
+            <button type="button" class="btn btn-secondary" id="refresh-button"><svg class="icon"><use href="#i-refresh"></use></svg> <span>Làm mới</span></button>
+            <button type="button" class="btn btn-secondary rf-form-button" id="form-button"><svg class="icon"><use href="#i-clipboard"></use></svg><span>Điền Google Form</span></button>
+            <button type="button" class="btn btn-primary" id="add-button"><svg class="icon"><use href="#i-plus"></use></svg><span>Thêm công việc</span></button>
+            <button type="button" class="btn btn-secondary rf-import-open" id="import-button"><svg class="icon"><use href="#i-upload"></use></svg><span>Import</span></button>
+            <button type="button" class="btn btn-secondary" id="export-button" data-export="all"><svg class="icon"><use href="#i-download"></use></svg><span>Export</span></button>
+            <button type="button" class="btn btn-secondary rf-export-all" id="export-all-button" data-export="everything"><svg class="icon"><use href="#i-download"></use></svg><span>Export All</span></button>
+          </div>
+        </section>
+
+        <div class="data-note" id="data-note" role="status" aria-live="polite">
+          <svg class="icon"><use href="#i-info"></use></svg>
+          <span>Đang hiển thị <strong>dữ liệu mẫu</strong>. Thao tác thử nghiệm được lưu trong trình duyệt này, không ghi vào Excel.</span>
+          <button type="button" id="reset-demo" title="Khôi phục dữ liệu mẫu mặc định">Khôi phục mẫu <svg class="icon"><use href="#i-refresh"></use></svg></button>
+        </div>
+
+        <!-- Bộ lọc thời gian áp dụng cho cả ba trang -->
+        <section class="filter-bar" aria-label="Bộ lọc khoảng thời gian">
+          <div class="filter-bar-title"><svg class="icon"><use href="#i-calendar"></use></svg><div><strong>Thời gian thống kê</strong><span id="period-label">Đang tải...</span></div></div>
+          <div class="segmented" role="group" aria-label="Chọn thời gian">
+            <button type="button" class="segment active" data-period="week" aria-pressed="true">Tuần</button>
+            <button type="button" class="segment" data-period="month" aria-pressed="false">Tháng</button>
+            <button type="button" class="segment" data-period="quarter" aria-pressed="false">Quý</button>
+            <button type="button" class="segment" data-period="year" aria-pressed="false">Năm</button>
+          </div>
+        </section>
+
+        <!-- TRANG 1: BIỂU ĐỒ QUAN HỆ -->
+        <section class="page-view" id="page-charts" aria-label="Dashboard">
+          <div class="kpi-grid kpi-grid-four">
+            <article class="kpi-card tone-blue"><div class="kpi-top"><span>Tổng công việc phát sinh</span><span class="kpi-icon"><svg class="icon"><use href="#i-clipboard"></use></svg></span></div><strong class="kpi-number" id="kpi-created">0</strong><div class="kpi-bottom"><span class="kpi-tag">Trong kỳ</span><span>công việc ghi nhận</span></div><div class="kpi-art"></div></article>
+            <article class="kpi-card tone-red"><div class="kpi-top"><span>Chưa hoàn thành</span><span class="kpi-icon"><svg class="icon"><use href="#i-wrench"></use></svg></span></div><strong class="kpi-number" id="kpi-open">0</strong><div class="kpi-bottom"><span class="kpi-tag">Đang xử lý</span><span>cần tiếp tục theo dõi</span></div><div class="kpi-art"></div></article>
+            <article class="kpi-card tone-green"><div class="kpi-top"><span>Đã hoàn thành</span><span class="kpi-icon"><svg class="icon"><use href="#i-check-circle"></use></svg></span></div><strong class="kpi-number" id="kpi-done">0</strong><div class="kpi-bottom"><span class="kpi-tag">Trong kỳ</span><span>công việc đã xử lý</span></div><div class="kpi-art"></div></article>
+            <article class="kpi-card tone-purple"><div class="kpi-top"><span>Tỷ lệ hoàn thành</span><span class="kpi-icon"><svg class="icon"><use href="#i-chart"></use></svg></span></div><strong class="kpi-number" id="kpi-rate">0%</strong><div class="kpi-bottom"><span class="kpi-tag">Hiệu suất</span><span>theo nhóm phát sinh</span></div><div class="kpi-art"></div></article>
+          </div>
+
+          <div class="chart-grid">
+            <article class="surface-card trend-card">
+              <div class="card-head"><div><h2>Biểu đồ thể hiện mối quan hệ</h2></div><span class="card-head-icon"><svg class="icon"><use href="#i-chart"></use></svg></span></div>
+              <div class="legend"><span><i class="legend-dot red"></i> Sửa chữa tạm</span><span><i class="legend-dot green"></i> Đã hoàn thành</span></div>
+              <div class="trend-scroll"><div class="trend-chart" id="trend-chart" role="img" aria-label="Biểu đồ xu hướng công việc"></div></div>
+              <div class="chart-tooltip" id="chart-tooltip" hidden role="status"></div>
+            </article>
+            <article class="surface-card distribution-card">
+              <div class="card-head"><div><h2>Tỷ lệ % công việc</h2></div></div>
+              <div class="donut-container"><div class="donut" id="donut"><div class="donut-inner"><strong id="donut-number">0%</strong><span>Hoàn thành</span></div></div></div>
+              <div class="distribution-legend"><div><span><i class="legend-dot green"></i> Đã hoàn thành</span><strong id="donut-done">0</strong></div><div><span><i class="legend-dot red"></i> Chưa hoàn thành</span><strong id="donut-open">0</strong></div></div>
+            </article>
+          </div>
+
+          <div class="bottom-grid">
+            <article class="surface-card mini-list-card"><div class="card-head inline-head"><div><h2>Công việc gần đây</h2><p>10 công việc được thêm gần nhất</p></div><button class="text-link" type="button" data-page="open">Xem tất cả <svg class="icon"><use href="#i-arrow"></use></svg></button></div><div id="recent-list" class="recent-list"></div></article>
+            <article class="surface-card health-card"><div class="card-head"><div><h2>Tiến độ xử lý</h2><p>Ưu tiên công việc đang tồn đọng</p></div></div><div class="health-number"><span id="health-old">0</span><div><strong>công việc quá 24 giờ</strong><small>Trong số công việc chưa hoàn thành</small></div></div><div class="progress-track"><div id="health-progress" class="progress-fill"></div></div><div class="health-footer"><span id="health-percent">0% cần ưu tiên</span><button class="text-link" type="button" data-page="open" data-open-filter="overdue">Xử lý ngay <svg class="icon"><use href="#i-arrow"></use></svg></button></div></article>
+          </div>
+        </section>
+
+        <!-- TRANG 2: CÔNG VIỆC SỬA CHỮA TẠM -->
+        <section class="page-view" id="page-open" aria-label="Công việc sửa chữa tạm" hidden>
+          <div class="kpi-grid kpi-grid-three">
+            <article class="kpi-card tone-red"><div class="kpi-top"><span>Chưa hoàn thành</span><span class="kpi-icon"><svg class="icon"><use href="#i-wrench"></use></svg></span></div><strong class="kpi-number" id="open-total">0</strong><div class="kpi-bottom">Công việc cần tiếp tục theo dõi</div></article>
+            <article class="kpi-card tone-orange"><div class="kpi-top"><span>Quá 24 giờ</span><span class="kpi-icon"><svg class="icon"><use href="#i-clock"></use></svg></span></div><strong class="kpi-number" id="open-overdue">0</strong><div class="kpi-bottom">Cần ưu tiên xử lý</div></article>
+            <article class="kpi-card tone-green"><div class="kpi-top"><span>Đã hoàn thành</span><span class="kpi-icon"><svg class="icon"><use href="#i-check-circle"></use></svg></span></div><strong class="kpi-number" id="open-finished">0</strong><div class="kpi-bottom">Công việc đã khép lại trong kỳ</div></article>
+          </div>
+          <article class="surface-card table-card">
+            <div class="table-head"><div><h2>Danh sách công việc sửa chữa tạm <span class="count-pill" id="open-count">0</span></h2><p>Cập nhật tiến độ và kiểm soát các công việc đang xử lý</p></div></div>
+            <div class="table-controls"><label class="search-input"><svg class="icon"><use href="#i-search"></use></svg><input id="open-search" type="search" autocomplete="off" placeholder="Tìm theo vị trí, nội dung, người thực hiện..."><span class="shortcut">/</span></label><div class="chip-group" role="group" aria-label="Lọc công việc"><button class="filter-chip active" type="button" data-open-filter="all" aria-pressed="true">Tất cả</button><button class="filter-chip" type="button" data-open-filter="overdue" aria-pressed="false">Quá 24h</button><button class="filter-chip" type="button" data-open-filter="critical" aria-pressed="false">Quá 48h</button></div></div>
+            <!-- V33: Thanh xác nhận bên ngoài bảng, cùng cấu trúc Chờ duyệt -->
+            <div class="rf-bulk-toolbar rf-open-selection-toolbar" id="rf-bulk-open" role="region" aria-label="Xác nhận hoàn thành các công việc đã chọn" hidden>
+              <span class="rf-open-selected-label" data-bulk-count aria-live="polite">0 công việc đã chọn</span>
+              <div class="rf-bulk-buttons">
+                <button type="button" class="btn rf-bulk-btn rf-bulk-complete" data-bulk-action="complete">✓ Xác nhận hoàn thành đã chọn</button>
+                <button type="button" class="btn rf-bulk-clear" data-bulk-clear="open">Bỏ chọn</button>
+              </div>
+            </div>
+            <div class="table-scroll"><table class="task-table"><thead><tr><th>STT</th><th class="rf-completion-head"><span>Hoàn thành</span><input type="checkbox" data-select-all data-select-group="open" aria-label="Chọn tất cả công việc đang xử lý"></th><th>Vị trí</th><th>Nội dung công việc</th><th>Đã sửa chữa tạm thế nào?</th><th>Việc còn lại cần xử lý</th><th>Người thực hiện</th><th><button class="sort-button" type="button" data-sort="open" data-sort-key="startedAt">Thời gian bắt đầu <span class="sort-caret">↕</span></button></th><th><button class="sort-button" type="button" data-sort="open" data-sort-key="duration">Bộ đếm <span class="sort-caret">↕</span></button></th><th>Email người follow</th><th>Thao tác</th></tr></thead><tbody id="open-table-body"></tbody></table></div>
+            <div id="open-empty" class="empty-state" hidden><span class="empty-icon"><svg class="icon"><use href="#i-clipboard"></use></svg></span><h3>Không tìm thấy công việc</h3><p>Thử thay đổi khoảng thời gian hoặc từ khóa tìm kiếm.</p></div>
+            <div class="table-footer"><span id="open-footer">Đang tải...</span><span class="table-foot-note">Cuộn ngang để xem đầy đủ thông tin <svg class="icon"><use href="#i-arrow"></use></svg></span></div>
+          </article>
+        </section>
+
+        <!-- TRANG 3: CÔNG VIỆC ĐÃ HOÀN THÀNH -->
+        <section class="page-view" id="page-done" aria-label="Công việc đã hoàn thành" hidden>
+          <div class="kpi-grid kpi-grid-three">
+            <article class="kpi-card tone-green"><div class="kpi-top"><span>Hoàn thành trong kỳ</span><span class="kpi-icon"><svg class="icon"><use href="#i-check-circle"></use></svg></span></div><strong class="kpi-number" id="done-total">0</strong><div class="kpi-bottom">Công việc đã được xác nhận</div></article>
+            <article class="kpi-card tone-blue"><div class="kpi-top"><span>Thời gian xử lý trung bình</span><span class="kpi-icon"><svg class="icon"><use href="#i-clock"></use></svg></span></div><strong class="kpi-number kpi-number-small" id="done-average">—</strong><div class="kpi-bottom">Tính từ lúc phát sinh đến hoàn thành</div></article>
+            <article class="kpi-card tone-purple"><div class="kpi-top"><span>Hoàn tất trong 24 giờ</span><span class="kpi-icon"><svg class="icon"><use href="#i-sparkle"></use></svg></span></div><strong class="kpi-number" id="done-fast">0</strong><div class="kpi-bottom">Công việc có thời gian xử lý dưới 24h</div></article>
+          </div>
+          <article class="surface-card table-card">
+            <div class="table-head"><div><h2>Danh sách công việc đã hoàn thành <span class="count-pill" id="done-count">0</span></h2><p>Lịch sử xử lý và kết quả hoàn thành công việc</p></div></div>
+            <div class="table-controls"><label class="search-input"><svg class="icon"><use href="#i-search"></use></svg><input id="done-search" type="search" autocomplete="off" placeholder="Tìm theo vị trí, nội dung, người thực hiện..."><span class="shortcut">/</span></label><div class="chip-group"><span class="read-only-chip"><svg class="icon"><use href="#i-check-circle"></use></svg> Đã hoàn tất</span></div></div>
+            <div id="rf-bulk-done" hidden></div>
+            <div class="table-scroll"><table class="task-table"><thead><tr><th>STT</th><th class="rf-completion-head rf-reopen-head">Hoàn tác</th><th>Vị trí</th><th>Nội dung công việc</th><th>Đã sửa chữa tạm thế nào?</th><th>Việc còn lại cần xử lý</th><th>Người thực hiện</th><th><button class="sort-button" type="button" data-sort="done" data-sort-key="startedAt">Thời gian bắt đầu <span class="sort-caret">↕</span></button></th><th><button class="sort-button" type="button" data-sort="done" data-sort-key="duration">Thời gian xử lý <span class="sort-caret">↕</span></button></th><th>Email người follow</th><th>Hoàn thành lúc</th><th>Thao tác</th></tr></thead><tbody id="done-table-body"></tbody></table></div>
+            <div id="done-empty" class="empty-state" hidden><span class="empty-icon"><svg class="icon"><use href="#i-check-circle"></use></svg></span><h3>Chưa có công việc hoàn thành</h3><p>Thử thay đổi khoảng thời gian hoặc từ khóa tìm kiếm.</p></div>
+            <div class="table-footer"><span id="done-footer">Đang tải...</span><span class="table-foot-note">Cuộn ngang để xem đầy đủ thông tin <svg class="icon"><use href="#i-arrow"></use></svg></span></div>
+          </article>
+        </section>
+
+
+        <section class="page-view" id="page-pending" aria-label="Công việc chờ duyệt" hidden>
+          <div class="kpi-grid kpi-grid-three rf-approval-metrics">
+            <article class="kpi-card tone-orange"><div class="kpi-top"><span>Đang chờ duyệt</span><span class="kpi-icon"><svg class="icon"><use href="#i-clock"></use></svg></span></div><strong class="kpi-number" id="pending-metric-pending">0</strong><div class="kpi-bottom">Yêu cầu đang đợi Admin xử lý</div></article>
+            <article class="kpi-card tone-red"><div class="kpi-top"><span>Đã từ chối</span><span class="kpi-icon"><svg class="icon"><use href="#i-x"></use></svg></span></div><strong class="kpi-number" id="pending-metric-rejected">0</strong><div class="kpi-bottom">Yêu cầu không được chấp thuận</div></article>
+            <article class="kpi-card tone-blue"><div class="kpi-top"><span>Tổng yêu cầu</span><span class="kpi-icon"><svg class="icon"><use href="#i-clipboard"></use></svg></span></div><strong class="kpi-number" id="pending-metric-all">0</strong><div class="kpi-bottom">Bao gồm Pending và Rejected</div></article>
+          </div>
+          <article class="surface-card table-card rf-pending-card">
+            <div class="table-head"><div><h2>Danh sách công việc chờ duyệt <span class="count-pill" id="pending-count">0</span></h2><p>Google Form gửi lên → Pending → Admin duyệt hoặc từ chối. User có thể theo dõi Pending / Rejected</p></div></div>
+            <div class="table-controls"><label class="search-input"><svg class="icon"><use href="#i-search"></use></svg><input id="pending-search" type="search" placeholder="Tìm vị trí, nội dung, người thực hiện..."></label><div class="chip-group" role="group" aria-label="Lọc công việc chờ duyệt"><button class="filter-chip active" type="button" data-pending-filter="all" aria-pressed="true">Tất cả</button><button class="filter-chip" type="button" data-pending-filter="24" aria-pressed="false">Quá 24h</button><button class="filter-chip" type="button" data-pending-filter="48" aria-pressed="false">Quá 48h</button></div></div>
+            <div class="rf-bulk-toolbar" id="rf-bulk-pending" hidden><span data-bulk-count>0 công việc đã chọn</span><div class="rf-bulk-buttons"><button type="button" class="btn rf-bulk-btn rf-bulk-approve" data-bulk-action="approve">✓ Duyệt đã chọn</button><button type="button" class="btn rf-bulk-btn rf-bulk-reject" data-bulk-action="reject">× Từ chối đã chọn</button><button type="button" class="btn rf-bulk-clear" data-bulk-clear="pending">Bỏ chọn</button></div></div>
+            <div class="table-scroll"><table class="task-table"><thead><tr><th>STT</th><th class="rf-select-head"><input type="checkbox" data-select-all data-select-group="pending" aria-label="Chọn tất cả công việc Pending đang hiển thị"></th><th>Trạng thái duyệt</th><th>Vị trí</th><th>Nội dung công việc</th><th>Đã sửa chữa tạm thế nào?</th><th>Việc còn lại cần xử lý</th><th>Người thực hiện</th><th><button class="sort-button" type="button" data-sort="pending" data-sort-key="startedAt">Thời gian gửi <span class="sort-caret">↕</span></button></th><th><button class="sort-button" type="button" data-sort="pending" data-sort-key="duration">Bộ đếm <span class="sort-caret">↕</span></button></th><th>Email người follow</th><th>Thao tác</th></tr></thead><tbody id="pending-table-body"></tbody></table></div>
+            <div id="pending-empty" class="empty-state" hidden><h3>Chưa có công việc chờ duyệt</h3><p>Các lượt gửi Google Form mới sẽ xuất hiện tại đây với trạng thái Pending.</p></div>
+            <div class="table-footer"><span id="pending-footer">Đang tải...</span></div>
+          </article>
+        </section>
+
+
+        <!-- V25: Cảnh báo theo tuổi công việc thực tế, không thay đổi Sheet -->
+        <section class="page-view" id="page-alarm" aria-label="Alarm công việc" hidden>
+          <div class="rf-alert-grid">
+            <article class="rf-alert-kpi tier-pending24"><span>Chờ duyệt 24–48 giờ</span><strong id="alarm-kpi-pending24">0</strong><small>Cam · Đợi Admin duyệt</small></article>
+            <article class="rf-alert-kpi tier-pending48"><span>Chờ duyệt quá 48 giờ</span><strong id="alarm-kpi-pending48">0</strong><small>Cam đậm · Ưu tiên duyệt</small></article>
+            <article class="rf-alert-kpi tier-open24"><span>Chưa hoàn thành 24–48 giờ</span><strong id="alarm-kpi-open24">0</strong><small>Đỏ · Cần xử lý</small></article>
+            <article class="rf-alert-kpi tier-open48"><span>Chưa hoàn thành quá 48 giờ</span><strong id="alarm-kpi-open48">0</strong><small>Đỏ đậm · Trên 72 giờ cần ưu tiên cao nhất</small></article>
+          </div>
+          <article class="surface-card rf-alert-panel">
+            <div class="rf-panel-head"><h2><svg class="icon"><use href="#i-bell"></use></svg> Danh sách công việc quá hạn <span class="count-pill" id="alarm-list-count">0</span></h2><p>Pending: tính từ lúc gửi Form • Chưa hoàn thành: tính từ thời gian bắt đầu sửa chữa</p></div>
+            <div class="table-scroll"><table class="task-table rf-alarm-table"><thead><tr><th>Mức độ</th><th>Vị trí</th><th>Nội dung công việc</th><th>Trạng thái</th><th>Thời gian quá hạn</th><th>Ngày bắt đầu / Ngày gửi</th><th>Xem</th></tr></thead><tbody id="alarm-table-body"></tbody></table></div>
+            <div class="rf-panel-empty" id="alarm-empty" hidden>Hiện không có công việc vượt ngưỡng cảnh báo</div>
+          </article>
+        </section>
+
+        <!-- V25: Lịch sử lưu bởi Apps Script, chỉ Admin có quyền xem -->
+        <section class="page-view" id="page-history" aria-label="Lịch sử thao tác" hidden>
+          <article class="surface-card rf-history-panel">
+            <div class="rf-panel-head"><h2><svg class="icon"><use href="#i-history"></use></svg> Lịch sử thao tác <span class="count-pill" id="history-count">0</span></h2><p>Ghi nhận tài khoản và thời điểm phê duyệt, từ chối, hoàn thành, hoàn tác, chỉnh sửa hoặc tạo công việc</p></div>
+            <div class="rf-history-actions"><label class="search-input"><svg class="icon"><use href="#i-search"></use></svg><input id="history-search" type="search" placeholder="Tìm tài khoản, vị trí, nội dung, mã công việc..."></label><button type="button" class="btn btn-secondary" id="history-refresh"><svg class="icon"><use href="#i-refresh"></use></svg> Làm mới lịch sử</button></div>
+            <div class="table-scroll"><table class="task-table rf-history-table"><thead><tr><th>Thời gian</th><th>Hành động</th><th>Tài khoản thao tác</th><th>Vị trí</th><th>Nội dung công việc</th><th>Trước → Sau</th><th>Chi tiết</th></tr></thead><tbody id="history-table-body"></tbody></table></div>
+            <div class="rf-panel-empty" id="history-empty" hidden>Chưa có lịch sử thao tác được ghi nhận</div>
+          </article>
+        </section>
+
+        <footer class="main-footer"><span>© 2026 RepairFlow · Made by Nguyễn Phúc Vinh</span></footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- POPUP THÊM / SỬA -->
+  <dialog class="modal" id="task-dialog" aria-labelledby="task-dialog-title">
+    <form class="task-form" id="task-form">
+      <header class="modal-head"><div><h2 id="task-dialog-title">Thêm công việc mới</h2><p id="rf-editor-subtitle">Công việc mới của User sẽ chờ Admin duyệt.</p></div><button type="button" class="icon-button" data-close-modal="task-dialog" aria-label="Đóng"><svg class="icon"><use href="#i-x"></use></svg></button></header>
+      <div class="form-body"><div class="form-grid">
+        <label class="form-field field-full">Khu vực sửa chữa tạm <em>*</em>
+          <select name="location" id="rf-location" required>
+            <option value="" selected disabled>Chọn khu vực / dây chuyền</option>
+            <option>Line J</option><option>Line E</option><option>Line P</option>
+            <option>Line K</option><option>Line L</option><option>Line N</option>
+            <option>Line S</option><option>Utility</option><option>XLNT</option>
+            <option value="Other">Other — khu vực khác</option>
+          </select>
+        </label>
+        <label class="form-field field-full" id="rf-location-other-wrap" hidden>Nhập khu vực khác <em>*</em>
+          <input name="locationOther" id="rf-location-other" maxlength="150" placeholder="Tên khu vực sửa chữa">
+        </label>
+        <label class="form-field field-full">Nội dung công việc <em>*</em><textarea name="detail" required rows="2" placeholder="Mô tả sự cố hoặc nội dung công việc"></textarea></label>
+        <label class="form-field field-full">Đã sửa chữa tạm như thế nào? <em>*</em><textarea name="temporaryFix" required rows="2" placeholder="Biện pháp sửa chữa tạm đã thực hiện"></textarea></label>
+        <label class="form-field field-full">Việc còn lại cần xử lý <em>*</em><textarea name="remainingWork" required rows="2" placeholder="Đầu việc cần hoàn thành sau sửa chữa tạm"></textarea></label>
+        <label class="form-field">Người thực hiện ban đầu <em>*</em><input name="initialWorker" maxlength="120" placeholder="Họ và tên" required></label>
+        <label class="form-field">Email người follow<input name="assigneeEmail" type="email" maxlength="160" placeholder="name@company.com"></label>
+        <label class="form-field">Thời gian bắt đầu<input name="startedAt" type="datetime-local"><small class="rf-field-hint">Để trống sẽ lấy thời điểm gửi công việc</small></label>
+        <div class="rf-upload-field field-full" id="rf-upload-wrap">
+          <span class="rf-upload-title">Hình ảnh minh chứng</span>
+          <label class="rf-dropzone" id="rf-dropzone" tabindex="0">
+            <input id="rf-upload-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden>
+            <svg class="icon"><use href="#i-plus"></use></svg>
+            <strong>Kéo thả ảnh vào đây hoặc bấm để chọn tệp</strong>
+            <small>Tối đa 5 ảnh, tối đa 20 MB ảnh gốc mỗi tệp. Ảnh lớn sẽ được thu nhỏ khi tải lên.</small>
+          </label>
+          <div class="rf-upload-list" id="rf-upload-list" aria-live="polite"></div>
+        </div>
+        <label class="form-field field-full">Thêm liên kết Google Drive (không bắt buộc)<input name="attachmentUrl" type="url" placeholder="https://drive.google.com/file/d/..." maxlength="500"></label>
+      </div></div>
+      <footer class="modal-footer"><button type="button" class="btn btn-secondary" data-close-modal="task-dialog">Hủy</button><button type="submit" class="btn btn-primary" id="save-task-button"><svg class="icon"><use href="#i-check"></use></svg> Lưu công việc</button></footer>
+    </form>
+  </dialog>
+
+  <!-- V29: IMPORT EXCEL — tải mẫu / thả tệp / kiểm tra / chọn nhiều dòng / lưu -->
+  <dialog class="rf-import-modal" id="rf-import-dialog" aria-labelledby="rf-import-title">
+    <div class="rf-import-head">
+      <div><span class="rf-import-kicker">REPAIRFLOW · EXCEL</span><h2 id="rf-import-title">Import nhiều công việc</h2><p>Nhập hàng loạt từ file Excel có các cột giống Google Form</p></div>
+      <button type="button" class="icon-button" data-close-modal="rf-import-dialog" aria-label="Đóng"> <svg class="icon"><use href="#i-x"></use></svg></button>
+    </div>
+    <div class="rf-import-content">
+      <div class="rf-import-steps">
+        <section class="rf-import-step">
+          <div class="rf-import-step-icon"><svg class="icon"><use href="#i-file-spreadsheet"></use></svg></div>
+          <div><strong>1. Tải Excel mẫu</strong><p>Điền mỗi công việc trên một dòng, tối đa 200 công việc/lần</p>
+            <button id="rf-import-download" type="button" class="btn btn-secondary"><svg class="icon"><use href="#i-download"></use></svg> Download file mẫu (.xlsx)</button>
+          </div>
+        </section>
+        <section class="rf-import-step">
+          <div class="rf-import-step-icon"><svg class="icon"><use href="#i-upload"></use></svg></div>
+          <div><strong>2. Tải file đã điền</strong><p>Chỉ chấp nhận .xlsx; không cần sửa cột RF_ID hoặc trạng thái</p>
+            <label class="rf-import-drop" id="rf-import-drop" tabindex="0" role="button" for="rf-import-file"><svg class="icon"><use href="#i-upload"></use></svg><span>Kéo thả Excel vào đây hoặc bấm để chọn</span><small>Tối đa 8 MB · Có xem trước và kiểm tra trước khi ghi</small></label>
+            <input type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="rf-import-file" hidden>
+          </div>
+        </section>
+      </div>
+      <div class="rf-import-message" id="rf-import-note" role="status" aria-live="polite">Chưa chọn file Excel. Bạn có thể tải mẫu và điền nhiều dòng trước khi import.</div>
+      <section class="rf-import-preview" id="rf-import-preview" hidden>
+        <div class="rf-import-preview-head"><div><h3>Xem trước dữ liệu</h3><p id="rf-import-summary"></p></div><button type="button" class="btn btn-secondary" id="rf-import-select-all">Chọn tất cả hợp lệ</button></div>
+        <div class="rf-import-scroll"><table class="rf-import-table"><thead><tr><th>Chọn</th><th>Dòng Excel</th><th>Trạng thái</th><th>Khu vực</th><th>Nội dung công việc</th><th>Đã sửa chữa tạm</th><th>Việc còn lại</th><th>Người thực hiện</th><th>Thời gian bắt đầu</th><th>Email follow</th><th>Ảnh / link</th></tr></thead><tbody id="rf-import-table-body"></tbody></table></div>
+      </section>
+    </div>
+    <footer class="rf-import-footer"><span id="rf-import-progress">Chưa có dữ liệu</span><div><button type="button" class="btn btn-secondary" data-close-modal="rf-import-dialog">Đóng</button><button type="button" class="btn btn-primary" id="rf-import-save" disabled><svg class="icon"><use href="#i-check"></use></svg> Xác nhận nhập</button></div></footer>
+  </dialog>
+
+  <!-- POPUP CHI TIẾT -->
+  <dialog class="modal detail-modal" id="detail-dialog" aria-labelledby="detail-dialog-title">
+    <div class="modal-head"><div><h2 id="detail-dialog-title">Chi tiết công việc</h2><p id="detail-subtitle">Thông tin sửa chữa và tiến độ xử lý</p></div><button type="button" class="icon-button" data-close-modal="detail-dialog" aria-label="Đóng"><svg class="icon"><use href="#i-x"></use></svg></button></div>
+    <div class="detail-body" id="detail-body"></div>
+    <footer class="modal-footer"><button class="btn btn-secondary" type="button" data-close-modal="detail-dialog">Đóng</button><button class="btn btn-primary" type="button" id="detail-edit-button"><svg class="icon"><use href="#i-edit"></use></svg> Chỉnh sửa</button></footer>
+  </dialog>
+
+  <!-- V32: Nhập minh chứng riêng cho từng công việc, kể cả xử lý nhiều công việc -->
+  <dialog class="modal rf-completion-modal" id="rf-completion-dialog" aria-labelledby="rf-completion-title">
+    <form id="rf-completion-form">
+      <header class="modal-head"><div><h2 id="rf-completion-title">Xác nhận hoàn thành</h2>
+        <p id="rf-completion-hint"></p></div>
+        <button type="button" class="icon-button" data-close-modal="rf-completion-dialog" aria-label="Đóng"><svg class="icon"><use href="#i-x"></use></svg></button></header>
+      <div class="rf-completion-body">
+        <div class="rf-completion-step" id="rf-completion-step" hidden></div>
+        <strong id="rf-completion-task"></strong>
+        <p class="rf-completion-note">Mỗi công việc cần từ 1 đến 5 ảnh minh chứng riêng trước khi xác nhận.</p>
+        <label class="rf-dropzone rf-completion-drop" id="rf-completion-drop" tabindex="0">
+          <input type="file" id="rf-completion-file" multiple hidden accept="image/png,image/jpeg,image/webp,image/gif">
+          <svg class="icon"><use href="#i-upload"></use></svg>
+          <strong>Kéo thả ảnh hoàn thành hoặc bấm để chọn</strong>
+          <small>JPG, PNG, WebP, GIF · Tối đa 5 ảnh · Tối đa 20 MB ảnh gốc/ảnh</small>
+        </label>
+        <div class="rf-upload-list" id="rf-completion-images"></div>
+        <div class="rf-completion-status"><span id="rf-completion-count">0/5 ảnh</span><span id="rf-completion-progress" role="status"></span></div>
+      </div>
+      <footer class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-close-modal="rf-completion-dialog">Hủy</button>
+        <button class="btn btn-secondary" type="button" id="rf-completion-prev" hidden>Quay lại</button>
+        <button class="btn btn-primary" type="button" id="rf-completion-next" hidden>Tiếp tục</button>
+        <button class="btn btn-primary" type="submit" id="rf-completion-submit" disabled>Gửi xác nhận hoàn thành</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- XÁC NHẬN HOÀN THÀNH / HOÀN TÁC -->
+  <dialog class="modal confirm-modal" id="confirm-dialog" aria-labelledby="confirm-title">
+    <div class="confirm-content"><div class="confirm-illustration"><svg class="icon" id="confirm-icon"><use href="#i-check-circle"></use></svg></div><h2 id="confirm-title">Công việc đã hoàn thành?</h2><p id="confirm-text">Bạn có chắc chắn muốn xác nhận hoàn thành công việc?</p><div class="confirm-actions"><button class="btn btn-secondary" type="button" data-close-modal="confirm-dialog">Hủy</button><button class="btn btn-primary" type="button" id="confirm-accept">Xác nhận</button></div></div>
+  </dialog>
+
+  <!-- V24: popup thông báo kết quả, không dùng toast góc màn hình -->
+  <dialog class="rf-message-modal" id="rf-message-dialog" aria-labelledby="rf-message-title" aria-describedby="rf-message-text">
+    <div class="rf-message-body">
+      <div class="rf-message-symbol" id="rf-message-symbol" aria-hidden="true">
+        <svg class="icon"><use id="rf-message-icon" href="#i-check-circle"></use></svg>
+      </div>
+      <h2 id="rf-message-title">Thông báo</h2>
+      <p id="rf-message-text"></p>
+      <button type="button" class="btn btn-primary rf-message-close" data-close-modal="rf-message-dialog">Đã hiểu</button>
+    </div>
+  </dialog>
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+</body>
+</html>
